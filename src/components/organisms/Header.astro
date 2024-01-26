@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import alienMonsterEmoji from '../../assets/img/alien-monster-emoji.png';
+
+const menu = [
+  { label: 'como funciona?', href: '#comofunciona' },
+  { label: 'mediação', href: '#mediacao' },
+  { label: 'leituras', href: '#leituras' },
+  { label: 'encontros', href: '#encontros' },
+]
+---
+
+<header class="flex items-center justify-between px-4 font-mono">
+  <div class="flex items-center">
+    <Image src={alienMonsterEmoji} alt="" width="24" class="mr-4" />
+    <div class="w-fit bg-[#1E1E21] px-4 py-2 rounded-t-xl flex gap-[144px]">
+      <a href="/" aria-label="Página Principal">README.txt</a>
+      <span class="font-icon hover:bg-zinc-700 h-6 w-6 flex justify-center items-center rounded-full cursor-default">close</span>
+    </div>
+  </div>
+  <nav>
+    <ul class="flex gap-8">
+      {
+        menu.map((i) => (
+          <li>
+            <a href={i.href} class="hover:text-primary">{i.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  
+</style>
