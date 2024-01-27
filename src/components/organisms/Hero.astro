@@ -9,20 +9,33 @@ import SectionLayout from './SectionLayout.astro';
 import heroImg from '../../assets/img/hero.svg?raw';
 ---
 
-<SectionLayout>
-  <Image slot="icon" alt="" src={alienMonsterEmoji} width="48" height="48" />
+<script>
+  import gsap from 'gsap';
+
+  gsap.timeline()
+    .fromTo('.hero-icon, .hero-heading', { y: 5 }, { y: 0, opacity: 1, duration: 1 })
+    .fromTo('.hero-sub', { y: 5 }, { y: 0, opacity: 1, duration: 1, delay: -0.8 })
+    .fromTo('.hero-description', { y: 5 }, { y: 0, opacity: 1, duration: 1, delay: -0.8 })
+    .fromTo('.hero-button', { y: 5 }, { y: 0, opacity: 1, duration: 1, delay: -0.8 })
+    .fromTo('.hero-img', { y: 5 }, { y: 0, opacity: 1, duration: 1, delay: -0.8 })
+</script>
+
+<SectionLayout id="#hero-section">
+  <Image class="hero-icon opacity-0" slot="icon" alt="" src={alienMonsterEmoji} width="48" height="48" />
   <div slot="content" class="flex flex-col lg:flex-row justify-between">
     <div class="w-full lg:w-[50%]">
-      <SectionHeading>{c.title}</SectionHeading>
-      <subtitle class="text-primary">
+      <div class="hero-heading opacity-0">
+        <SectionHeading>{c.title}</SectionHeading>
+      </div>
+      <subtitle class="text-primary hero-sub opacity-0">
         {c.subtitle}
       </subtitle>
-      <p class="mt-8 mb-9">
+      <p class="mt-8 mb-9 hero-description opacity-0">
         {c.description}
       </p>
-      <ButtonLink href="#" className="w-full mx-auto md:mx-0 md:w-[60%] glow before:-left-10 before:-top-4">{c.button}</ButtonLink>
+      <ButtonLink href="#" className="w-full mx-auto md:mx-0 md:w-[60%] glow before:-left-10 before:-top-4 hero-button opacity-0">{c.button}</ButtonLink>
     </div>
-    <div class="hidden lg:flex md:w-[50%] hero-img mx-auto justify-center">
+    <div class="hidden lg:flex md:w-[50%] hero-img mx-auto justify-center opacity-0">
       <Fragment set:html={heroImg} />
     </div>
   </div>

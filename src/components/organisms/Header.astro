@@ -10,15 +10,23 @@ const menu = [
 ]
 ---
 
+<script>
+  import gsap from 'gsap';
+
+  gsap.timeline()
+    .fromTo('.header-icon', { x:-3 }, { x:0, opacity: 1, duration: 0.5 })
+    .fromTo('.header-readme, .header-nav, .header-tabclose', { y:3 }, { y:0, opacity: 1, duration: 0.5, delay:-0.5 })
+</script>
+
 <header class="flex items-center justify-between px-4 font-mono">
   <div class="flex items-center">
-    <Image src={alienMonsterEmoji} alt="" width="24" class="mr-4" />
+    <Image src={alienMonsterEmoji} alt="" width="24" class="mr-4 header-icon opacity-0" />
     <div class="gap-4 sm:w-[300px] flex justify-between bg-[#1E1E21] px-4 py-2 rounded-t-xl">
-      <a href="/" aria-label="Página Principal">README.txt</a>
-      <span class="font-icon hover:bg-zinc-700 h-6 w-6 flex justify-center items-center rounded-full cursor-default">close</span>
+      <a href="/" aria-label="Página Principal" class="header-readme opacity-0">README.txt</a>
+      <span class="font-icon hover:bg-zinc-700 h-6 w-6 flex justify-center items-center rounded-full cursor-default header-tabclose opacity-0">close</span>
     </div>
   </div>
-  <nav class="hidden lg:flex">
+  <nav class="hidden lg:flex header-nav opacity-0">
     <ul class="flex">
       {
         menu.map((i) => (
