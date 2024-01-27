@@ -1,15 +1,7 @@
 ---
-interface Props {
-  title: string;
-  icon: string;
-}
 
-const { icon, title } = Astro.props;
 ---
 
-<icon>
-  {icon}
-</icon>
-<h1>
-  {title}
+<h1 class="text-2xl font-bold mt-2">
+  <slot />
 </h1>

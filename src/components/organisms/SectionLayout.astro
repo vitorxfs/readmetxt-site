@@ -1,0 +1,14 @@
+---
+import ButtonLink from '../atom/ButtonLink.astro';
+import SectionHeading from '../atom/SectionHeading.astro';
+
+---
+
+<section aria-label="README.txt" class="mt-4 xl:mt-14 flex flex-col md:flex-row gap-4">
+  <div class="min-w-12 min-h-12">
+    <slot name="icon" />
+  </div>
+  <div>
+    <slot name="content"/>
+  </div>
+</section>

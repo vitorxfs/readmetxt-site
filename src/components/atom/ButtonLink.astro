@@ -1,11 +1,21 @@
 ---
+import { twMerge as m } from 'tailwind-merge';
+import type { ClassNameValue } from 'tailwind-merge';
+
 interface Props {
   href: string;
+  className: ClassNameValue;
 }
 
-const { href } = Astro.props;
+const { href, className } = Astro.props;
 ---
 
-<a class="flex bg-primary-dark w-full justify-center leading-[50px] rounded-lg" href={href}>
+<a class={m([
+  `
+    flex bg-primary-dark w-full justify-center rounded-lg
+    uppercase text-sm font-semibold tracking-widest leading-[50px]
+    hover:brightness-125 hover:transition-all
+    `,
+  className])} href={href}>
   <slot />
 </a>
