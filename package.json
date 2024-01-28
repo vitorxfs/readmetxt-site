@@ -16,6 +16,7 @@
     "@fontsource-variable/montserrat": "^5.0.17",
     "@fontsource-variable/red-hat-mono": "^5.0.17",
     "@fontsource/material-icons": "^5.0.11",
+    "@fontsource/material-icons-outlined": "^5.0.11",
     "astro": "^4.2.4",
     "gsap": "^3.12.5",
     "tailwind-merge": "^2.2.1",

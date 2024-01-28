@@ -1,0 +1,91 @@
+---
+import SectionHeading from '../atom/SectionHeading.astro';
+import SectionLayout from './SectionLayout.astro';
+import items from '../../content/howitworks';
+---
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import items from '../../content/howitworks';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.timeline()
+    .fromTo('.howitworks-icon, .howitworks-heading', { y: 5, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, 0.5);
+
+  items.forEach((_, i) => {
+    const svg = document.querySelector(`#howitworks-list-item-${i} svg`);
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: `#howitworks-list-item-${i}`,
+        start: 'top 70%'
+      }
+    })
+    .fromTo(`#howitworks-list-item-${i}`, { y: 5 }, { y: 0, opacity: 1, duration: 1 })
+    if (svg) {
+      tl.from(svg, { opacity: 0, duration:1 }, 0.2)
+    }
+  })
+</script>
+
+<SectionLayout id="comofunciona" aria="Como funciona?">
+  <span class="font-icon text-4xl text-primary drop-shadow-lg howitworks-icon opacity-0" slot="icon" aria-hidden="true">lightbulb</span>
+  <div slot="content" class="w-full">
+    <div class="howitworks-heading opacity-0">
+      <SectionHeading>Como funciona?</SectionHeading>
+    </div>
+
+    <ul class="flex flex-col w-full mt-[80px]">
+      {
+        items.map((text, i) => (
+          <li class="howitworks-list-item opacity-0 mb-12 lg:mb-0" id={`howitworks-list-item-${i}`}>
+            <div class="flex items-center gap-8">
+              <span class="text-8xl text-transparent font-mono font-bold howitworks-number opacity-[0.3]">
+                {'0'+(i+1)}
+              </span>
+              <p class="max-w-[352px]">{text}</p>
+            </div>
+
+            {i % 3 === 0 ? (
+              <svg aria-hidden="true" class="hidden lg:flex lg:w-[50%] opacity-[0.2] pt-4" viewBox="0 0 450 50" fill="none" stroke-dasharray="10 10" xmlns="http://www.w3.org/2000/svg">
+                <path d="
+                  M 50 0
+                  Q 80 25
+                  250 25
+                  S 430 25
+                  450 50
+                " stroke="#C9A3FF" />
+              </svg>
+            ) : i+1 !== items.length && (
+                <svg class="ml-[-150px] hidden lg:flex max-w-[200px] opacity-[0.2] py-4" aria-hidden="true" viewBox="0 0 200 50" fill="none" stroke-dasharray="10 10" xmlns="http://www.w3.org/2000/svg">
+                  <path d="
+                    M 0 50
+                    Q 30 25
+                    100 25
+                    S 175 25
+                    200 0
+                  " stroke="#C9A3FF" />
+                </svg>
+              )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</SectionLayout>
+
+<style>
+  .howitworks-number {
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #C9A3FF;
+  }
+
+  .howitworks-list-item:nth-child(3n-1) {
+    align-self: flex-end;
+  }
+
+  .howitworks-list-item:nth-child(3n) {
+    align-self: center;
+  }
+</style>

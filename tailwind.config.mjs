@@ -8,7 +8,7 @@ export default {
       fontFamily: {
         sans: ['Montserrat Variable', ...defaultTheme.fontFamily.sans],
         mono: ['Red Hat Mono Variable', ...defaultTheme.fontFamily.mono],
-        icon: ['Material Icons']
+        icon: ['Material Icons Outlined']
       },
       colors: {
         'primary': '#C9A3FF',

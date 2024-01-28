@@ -23,6 +23,9 @@ dependencies:
   '@fontsource/material-icons':
     specifier: ^5.0.11
     version: 5.0.11
+  '@fontsource/material-icons-outlined':
+    specifier: ^5.0.11
+    version: 5.0.11
   astro:
     specifier: ^4.2.4
     version: 4.2.4
@@ -589,6 +592,10 @@ packages:
 
   /@fontsource-variable/red-hat-mono@5.0.17:
     resolution: {integrity: sha512-a12mHWaeLTeld19t2Z4CdEXsPlPjfuH2TEHxh63eTFQ7lLE8+RhEXflVrekH/lxvblglP/3RehyX6PMPq75ebA==}
+    dev: false
+
+  /@fontsource/material-icons-outlined@5.0.11:
+    resolution: {integrity: sha512-V0U/WCRXijxVHWr5ACj9CcUzxwAeCBayEGawKQFDB7f12tyCWTIVLKRDEhf1EaNVpSStkjl738jesY4j8Dr94Q==}
     dev: false
 
   /@fontsource/material-icons@5.0.11:
