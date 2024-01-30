@@ -12,6 +12,12 @@ interface Props {
 const { title } = Astro.props;
 ---
 
+<script>
+  import scrollSkewEffect from '../effects/scroll-skew.ts';
+
+  scrollSkewEffect(1.5);
+</script>
+
 <!doctype html>
 <html lang="en">
 	<head>

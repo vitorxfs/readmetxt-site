@@ -1,0 +1,99 @@
+---
+import { Image } from 'astro:assets';
+import SectionHeading from '../atom/SectionHeading.astro';
+import SectionLayout from './SectionLayout.astro';
+import c from '../../content/mediation';
+import type { SocialMedia } from '../../content/mediation';
+import RenderIcon from '../atom/FeatherIcon.tsx';
+
+const icons: Record<SocialMedia['name'], string> = {
+  instagram: 'Instagram',
+  linkedin: 'Linkedin',
+}
+---
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: '.mediation-heading',
+      start: 'top 70%'
+    }
+  })
+  .fromTo('.mediation-icon, .mediation-heading', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2)
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: '.mediation-picture',
+      start: 'top 70%'
+    }
+  })
+  .fromTo('.mediation-picture', { y: 10 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2)
+  .fromTo('.mediation-name', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.3)
+  .fromTo('.mediation-title', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.32)
+  .fromTo('.mediation-description', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.36)
+  .fromTo('.mediation-socialmedia', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.40)
+
+</script>
+
+<SectionLayout aria='Mediação'>
+  <span
+    class="font-icon text-4xl text-primary drop-shadow-lg mediation-icon opacity-0 hidden md:block"
+    slot="icon"
+    aria-hidden="true"
+  >
+    person
+  </span>
+  <div slot="content" class="w-full">
+    <div class="mediation-heading opacity-0 mb-14 flex gap-4">
+      <span
+        class="font-icon text-4xl text-primary drop-shadow-lg mediation-icon opacity-0 block md:hidden"
+        slot="icon"
+        aria-hidden="true"
+      >
+        person
+      </span>
+      <SectionHeading>Mediação</SectionHeading>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-4">
+      <!-- <div id="mediation-imagecardcontainer" class="max-w-[320px] w-full mx-auto lg:ml-0 h-full"> -->
+        <Image
+          class="object-cover rounded-[20%] max-w-[320px] w-full mx-auto lg:ml-0 h-full mediation-picture opacity-0 skewElem"
+          alt=""
+          width="350" height="350"
+          src="https://media.licdn.com/dms/image/D4D03AQH8NqJczcvZhQ/profile-displayphoto-shrink_800_800/0/1678556696183?e=1712188800&v=beta&t=LdItxYPsVyOqloAuGK0unRO502e5au-aBILxDlRZnkw"
+        />
+      <!-- </div> -->
+
+      <div class="flex flex-col lg:py-6">
+        <div>
+          <h2 class="text-2xl font-bold text-center lg:text-left mb-4 lg:mb-0 mediation-name opacity-0">{c.name}</h2>
+          <p class="text-sm text-primary mediation-title opacity-0">{c.title}</p>
+          <p class="mt-6 mediation-description opacity-0">{c.description}</p>
+        </div>
+
+
+        <ul class="flex mt-6 mediation-socialmedia opacity-0">
+          {c.socialMedia.map((sm) => (
+              <li>
+                <a astro-prerender aria-label={sm.name} href={sm.url} target="_blank" class="text-primary block p-4 -ml-4 hover:brightness-150 transition-all">
+                  <RenderIcon iconName={icons[sm.name]}>
+                </a>
+              </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</SectionLayout>
+
+<style is:global>
+  .mediation-picture {
+    transform: rotateY(var(--x)) rotateX(var(--y));
+  }
+</style>

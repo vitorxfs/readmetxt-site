@@ -30,9 +30,22 @@ import items from '../../content/howitworks';
 </script>
 
 <SectionLayout id="comofunciona" aria="Como funciona?">
-  <span class="font-icon text-4xl text-primary drop-shadow-lg howitworks-icon opacity-0" slot="icon" aria-hidden="true">lightbulb</span>
+  <span
+    class="font-icon text-4xl text-primary drop-shadow-lg howitworks-icon opacity-0 hidden md:block"
+    slot="icon"
+    aria-hidden="true"
+  >
+    lightbulb
+  </span>
   <div slot="content" class="w-full">
-    <div class="howitworks-heading opacity-0">
+    <div class="howitworks-heading opacity-0 flex gap-4">
+      <span
+        class="font-icon text-4xl text-primary drop-shadow-lg howitworks-icon opacity-0 block md:hidden"
+        slot="icon"
+        aria-hidden="true"
+      >
+        lightbulb
+      </span>
       <SectionHeading>Como funciona?</SectionHeading>
     </div>
 
