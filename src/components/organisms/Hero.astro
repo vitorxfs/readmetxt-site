@@ -33,7 +33,7 @@ import heroImg from '../../assets/img/hero.svg?raw';
       <p class="mt-8 mb-9 hero-description opacity-0">
         {c.description}
       </p>
-      <ButtonLink href="#" className="w-full mx-auto md:mx-0 md:w-[60%] glow before:-left-10 before:-top-4 hero-button opacity-0 skewElem">{c.button}</ButtonLink>
+      <ButtonLink href="#" className="w-full mx-auto md:mx-0 md:w-[60%] glow before:-left-10 before:-top-4 hero-button opacity-0">{c.button}</ButtonLink>
     </div>
     <div class="hidden lg:flex md:w-[50%] hero-img mx-auto justify-center opacity-0">
       <Fragment set:html={heroImg} />
@@ -63,21 +63,6 @@ import heroImg from '../../assets/img/hero.svg?raw';
 </style>
 
 <style is:global>
-  .glow {
-    position: relative;
-  }
-
-  .glow::before {
-    content: '';
-    display: block;
-    position: absolute;
-    width: 100px; height: 100px;
-    background-color: #AF7BFA;
-    border-radius: 50%;
-    opacity: 0.4;
-    filter: blur(36px);
-  }
-
   #hero-img-girl-body, #hero-img-locker {
     animation: float 5000ms ease-in-out infinite;
   }
@@ -101,7 +86,7 @@ import heroImg from '../../assets/img/hero.svg?raw';
     50% {
       transform: translateY(10px);
     }
-    100%: {
+    100% {
       transform: translateY(0px);
     }
   }

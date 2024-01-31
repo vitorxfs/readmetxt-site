@@ -1,0 +1,174 @@
+---
+import { Image } from 'astro:assets';
+import SectionHeading from '../atom/SectionHeading.astro';
+import SectionLayout from './SectionLayout.astro';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import amazonLogo from '../../assets/img/amazon.svg?raw';
+import starIcon from '../../assets/img/star.svg?raw';
+
+dayjs.locale('pt-br');
+dayjs.extend(LocalizedFormat)
+
+const currentBook = {
+  name: 'A vida na sociedade da vigilância: A privacidade hoje',
+  author: 'Stefano Rodotà',
+  progress: 90,
+  meetingDate: dayjs(new Date()).format('LL'),
+  amazonLink: 'https://www.amazon.com.br/Vida-Sociedade-Vigil%C3%A2ncia-Privacidade-Hoje/dp/8571476888',
+  stars: 4,
+}
+
+const styleProgressPercentage = `${currentBook.progress}%`
+---
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: '.currentreading-heading',
+      start: 'top 80%'
+    }
+  })
+  .fromTo('.currentreading-icon, .currentreading-heading', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2)
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: '.currentreading-picture',
+      start: 'top 80%'
+    }
+  })
+  .fromTo('.currentreading-picture', { y: 10 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2)
+  .fromTo('.currentreading-stars', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.28)
+  .fromTo('.currentreading-name', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.3)
+  .fromTo('.currentreading-author', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.32)
+  .fromTo('.currentreading-progress', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.36)
+  .fromTo('.currentreading-meeting', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.40)
+  .fromTo('.currentreading-buylink', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.44)
+  .fromTo('.currentreading-grouplink', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.48)
+
+</script>
+
+<SectionLayout aria='Leitura Atual' id='leituras'>
+  <span
+    class="font-icon text-4xl text-primary drop-shadow-lg currentreading-icon opacity-0 hidden md:block"
+    slot="icon"
+    aria-hidden="true"
+  >
+    menu_book
+  </span>
+  <div slot="content" class="w-full">
+    <div class="currentreading-heading opacity-0 mb-14 flex gap-4">
+      <span
+        class="font-icon text-4xl text-primary drop-shadow-lg currentreading-icon opacity-0 block md:hidden"
+        slot="icon"
+        aria-hidden="true"
+      >
+        menu_book
+      </span>
+      <SectionHeading>Leitura Atual</SectionHeading>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-4 mb-[500px] currentreading-picture opacity-0">
+      <div class="glow currentreading-image w-fit mx-auto md:mx-0">
+        <Image class="skewElem" alt="" src="https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg" width="173" height="247"/>
+      </div>
+
+      <div class="flex flex-col gap-8 justify-between">
+        <div>
+          <div class="flex gap-1 currentreading-stars opacity-0">
+            {Array(currentBook.stars).fill('').map(() => (
+              <span class="text-primary" set:html={starIcon} />
+            ))}
+            {Array(5-currentBook.stars).fill('').map(() => (
+              <span class="text-[#3A3A3A]" set:html={starIcon} />
+            ))}
+          </div>
+          <h3 class="text-2xl font-bold currentreading-name opacity-0">{currentBook.name}</h3>
+          <p class="currentreading-author opacity-0">{currentBook.author}</p>
+          <div class="flex items-center gap-2 mt-2 currentreading-progress opacity-0">
+            <span class="progress-bar"></span>
+            <p>{currentBook.progress}% lido</p>
+          </div>
+          <p class="mt-2 currentreading-meeting opacity-0">Encontro: {currentBook.meetingDate}</p>
+        </div>
+        <a aria-label="Comprar na amazon" href={currentBook.amazonLink} class="currentreading-buylink opacity-0 hover:text-primary transition-all w-fit p-2 -m-2">
+          <Fragment set:html={amazonLogo} />
+        </a>
+        <a href="#" class="flex flex-nowrap items-center text-primary gap-2 group-reading-link currentreading-grouplink opacity-0">
+          <span class="underline">Participar da leitura em grupo</span>
+          <span class="font-icon no-underline">east</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</SectionLayout>
+
+<style define:vars={{ styleProgressPercentage }}>
+  .group-reading-link:hover {
+    gap: 12px;
+    filter: brightness(120%);
+    transition: gap ease 300ms;
+  }
+  .group-reading-link {
+    transition: gap ease 300ms;
+  }
+
+  .glow::before {
+    width: 200px; height: 200px;
+    bottom: -20px; left:-30px;
+  }
+
+  .progress-bar {
+    width: 200px;
+    height: 4px;
+    background-color: #3A3A3A;
+    border-radius: 100px;
+    position: relative;
+    z-index: -1
+  }
+  .progress-bar::before {
+    position: absolute;
+    content: '';
+    border-radius: 100px;
+    height: 100%;
+    width: var(--styleProgressPercentage);
+    background-color: white;
+    z-index: 10;
+  }
+
+  .currentreading-image {
+    position: relative;
+  }
+
+  .currentreading-image:hover::after {
+    content:'';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    top: 0; left: 0;
+    opacity: 0;
+    background-image: url('/src/assets/img/glitch.gif');
+    background-size: cover;
+    animation: imgNoise 1000ms;
+    mix-blend-mode: soft-light;
+  }
+
+  @keyframes imgNoise {
+    0% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+</style>

@@ -19,7 +19,7 @@ import items from '../../content/howitworks';
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: `#howitworks-list-item-${i}`,
-        start: 'top 70%'
+        start: 'top 80%'
       }
     })
     .fromTo(`#howitworks-list-item-${i}`, { y: 5 }, { y: 0, opacity: 1, duration: 1 })
@@ -54,7 +54,7 @@ import items from '../../content/howitworks';
         items.map((text, i) => (
           <li class="howitworks-list-item opacity-0 mb-12 lg:mb-0" id={`howitworks-list-item-${i}`}>
             <div class="flex items-center gap-8">
-              <span class="text-8xl text-transparent font-mono font-bold howitworks-number opacity-[0.3]">
+              <span class="text-8xl text-transparent font-mono font-bold howitworks-number opacity-[0.3] skewElem">
                 {'0'+(i+1)}
               </span>
               <p class="max-w-[352px]">{text}</p>

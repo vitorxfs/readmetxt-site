@@ -26,4 +26,37 @@
     color: black;
     background: #C9A3FF;
   }
+
+  .glow {
+    position: relative;
+    z-index: 2;
+  }
+
+  .glow::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100px; height: 100px;
+    background-color: #AF7BFA;
+    border-radius: 50%;
+    opacity: 0.4;
+    filter: blur(36px);
+    z-index: -1;
+    animation: glowopacity 7000ms ease-in-out infinite
+  }
+
+  @keyframes glowopacity {
+    0% {
+      opacity: 0.2;
+      transform: scale(100%);
+    }
+    50% {
+      opacity: 0.3;
+      transform: scale(120%);
+    }
+    100% {
+      opacity: 0.2;
+      transform: scale(100%);
+    }
+  }
 </style>

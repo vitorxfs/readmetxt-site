@@ -5,6 +5,7 @@ import SectionLayout from './SectionLayout.astro';
 import c from '../../content/mediation';
 import type { SocialMedia } from '../../content/mediation';
 import RenderIcon from '../atom/FeatherIcon.tsx';
+import profilepic from '../../assets/img/profilepic.png';
 
 const icons: Record<SocialMedia['name'], string> = {
   instagram: 'Instagram',
@@ -21,26 +22,26 @@ const icons: Record<SocialMedia['name'], string> = {
   gsap.timeline({
     scrollTrigger: {
       trigger: '.mediation-heading',
-      start: 'top 70%'
+      start: 'top 80%'
     }
   })
-  .fromTo('.mediation-icon, .mediation-heading', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2)
+  .fromTo('.mediation-icon, .mediation-heading', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2);
 
   gsap.timeline({
     scrollTrigger: {
       trigger: '.mediation-picture',
-      start: 'top 70%'
+      start: 'top 80%'
     }
   })
-  .fromTo('.mediation-picture', { y: 10 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2)
+  .fromTo('.mediation-picture, .mediation-glow', { y: 10 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2)
   .fromTo('.mediation-name', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.3)
   .fromTo('.mediation-title', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.32)
   .fromTo('.mediation-description', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.36)
-  .fromTo('.mediation-socialmedia', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.40)
+  .fromTo('.mediation-socialmedia', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.40);
 
 </script>
 
-<SectionLayout aria='Mediação'>
+<SectionLayout aria='Mediação' id="mediacao">
   <span
     class="font-icon text-4xl text-primary drop-shadow-lg mediation-icon opacity-0 hidden md:block"
     slot="icon"
@@ -48,7 +49,7 @@ const icons: Record<SocialMedia['name'], string> = {
   >
     person
   </span>
-  <div slot="content" class="w-full">
+  <div slot="content" class="w-full h-fit">
     <div class="mediation-heading opacity-0 mb-14 flex gap-4">
       <span
         class="font-icon text-4xl text-primary drop-shadow-lg mediation-icon opacity-0 block md:hidden"
@@ -60,31 +61,37 @@ const icons: Record<SocialMedia['name'], string> = {
       <SectionHeading>Mediação</SectionHeading>
     </div>
 
-    <div class="flex flex-col lg:flex-row gap-4">
-      <!-- <div id="mediation-imagecardcontainer" class="max-w-[320px] w-full mx-auto lg:ml-0 h-full"> -->
+    <div class="flex flex-col lg:flex-row gap-4 h-fit items-stretch">
+      <span class="mediation-glow glow opacity-0" />
+      <div class="self-stretch max-w-[320px] rounded-[20%] w-full mx-auto lg:ml-0 mediation-picture opacity-0 skewElem">
         <Image
-          class="object-cover rounded-[20%] max-w-[320px] w-full mx-auto lg:ml-0 h-full mediation-picture opacity-0 skewElem"
+          class="object-cover h-full"
           alt=""
           width="350" height="350"
-          src="https://media.licdn.com/dms/image/D4D03AQH8NqJczcvZhQ/profile-displayphoto-shrink_800_800/0/1678556696183?e=1712188800&v=beta&t=LdItxYPsVyOqloAuGK0unRO502e5au-aBILxDlRZnkw"
+          src={profilepic}
         />
-      <!-- </div> -->
+      </div>
 
       <div class="flex flex-col lg:py-6">
         <div>
           <h2 class="text-2xl font-bold text-center lg:text-left mb-4 lg:mb-0 mediation-name opacity-0">{c.name}</h2>
           <p class="text-sm text-primary mediation-title opacity-0">{c.title}</p>
-          <p class="mt-6 mediation-description opacity-0">{c.description}</p>
+          <p class="mt-6 leading-6 mediation-description opacity-0">{c.description}</p>
         </div>
-
 
         <ul class="flex mt-6 mediation-socialmedia opacity-0">
           {c.socialMedia.map((sm) => (
-              <li>
-                <a astro-prerender aria-label={sm.name} href={sm.url} target="_blank" class="text-primary block p-4 -ml-4 hover:brightness-150 transition-all">
-                  <RenderIcon iconName={icons[sm.name]}>
-                </a>
-              </li>
+            <li>
+              <a
+                astro-prerender
+                aria-label={sm.name}
+                href={sm.url}
+                target="_blank"
+                class="text-primary block p-4 -ml-4 hover:brightness-150 transition-all"
+              >
+                <RenderIcon iconName={icons[sm.name]} />
+              </a>
+            </li>
           ))}
         </ul>
       </div>
@@ -92,8 +99,41 @@ const icons: Record<SocialMedia['name'], string> = {
   </div>
 </SectionLayout>
 
-<style is:global>
+<style>
+  .glow::before {
+    width: 300px; height: 300px;
+    top: 50px; left:-30px;
+    z-index: -1;
+  }
+
   .mediation-picture {
-    transform: rotateY(var(--x)) rotateX(var(--y));
+    position: relative;
+    overflow:hidden;
+    z-index: 2;
+  }
+
+  .mediation-picture:hover::after {
+    content:'';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    top: 0; left: 0;
+    opacity: 0;
+    background-image: url('/src/assets/img/glitch.gif');
+    animation: imgNoise 1000ms;
+    mix-blend-mode: soft-light;
+  }
+
+  @keyframes imgNoise {
+    0% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.3;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 </style>

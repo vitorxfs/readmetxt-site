@@ -12,7 +12,7 @@ const scrollSkewEffect = (cl: number) => {
       // only do something if the skew is MORE severe. Remember, we're always tweening back to 0, so if the user slows their scrolling quickly, it's more natural to just let the tween handle that smoothly rather than jumping to the smaller skew.
       if (Math.abs(skew) > Math.abs(proxy.skew)) {
         proxy.skew = skew;
-        gsap.to(proxy, {skew: 0, duration: 0.8, ease: "power3", overwrite: true, onUpdate: () => skewSetter(proxy.skew)});
+        gsap.to(proxy, {skew: 0, duration: 2, ease: "power3", overwrite: true, onUpdate: () => skewSetter(proxy.skew)});
       }
     }
   });
