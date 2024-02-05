@@ -1,0 +1,157 @@
+---
+import { Image } from 'astro:assets';
+import SectionHeading from '../atom/SectionHeading.astro';
+import SectionLayout from './SectionLayout.astro';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import Swiper from './swiper.astro';
+import 'swiper/css';
+import MagneticButton from '../atom/MagneticButton.astro';
+import readingBoardSvg from '../../assets/img/reading-board.svg?raw';
+
+dayjs.locale('pt-br');
+dayjs.extend(LocalizedFormat)
+
+const nextBooks = [
+  {
+    name: 'A vida na sociedade da vigilância: a privacidade hoje',
+    imageSrc: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
+    meetingDate: dayjs(new Date()).format('L'),
+  },
+  {
+    name: 'A vida na sociedade da vigilância: a privacidade hoje',
+    imageSrc: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
+    meetingDate: dayjs(new Date()).format('L'),
+  },
+  {
+    name: 'A vida na sociedade da vigilância: a privacidade hoje',
+    imageSrc: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
+    meetingDate: dayjs(new Date()).format('L'),
+  },
+  {
+    name: 'A vida na sociedade da vigilância: a privacidade hoje',
+    imageSrc: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
+    meetingDate: dayjs(new Date()).format('L'),
+  },
+  {
+    name: 'A vida na sociedade da vigilância: a privacidade hoje',
+    imageSrc: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
+    meetingDate: dayjs(new Date()).format('L'),
+  }
+]
+---
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: '.nextreadings-heading',
+      start: 'top 80%'
+    }
+  })
+  .fromTo('.nextreadings-icon, .nextreadings-heading', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2)
+  .fromTo('#nextreadings-carousel-container', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.3)
+  .fromTo('#nextreadings-readingboard-link', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.4);
+
+
+</script>
+
+<SectionLayout aria='Leitura Atual' id='leituras'>
+  <span
+    class="font-icon text-4xl text-white drop-shadow-lg nextreadings-icon opacity-0 hidden md:block"
+    slot="icon"
+    aria-hidden="true"
+  >
+    east
+  </span>
+  <div slot="content" class="w-full">
+    <div class="nextreadings-heading opacity-0 mb-14 flex gap-4">
+      <span
+        class="font-icon text white text-4xl drop-shadow-lg nextreadings-icon opacity-0 block md:hidden"
+        slot="icon"
+        aria-hidden="true"
+      >
+        east
+      </span>
+      <SectionHeading>Próximas Leituras</SectionHeading>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-4 mb-[500px] h-fit justify-between items-center">
+      <div class="flex gap-11 nextreadings-image w-full lg:w-[60%] h-fit overflow-x-scroll overflow-y-visible opacity-0" id="nextreadings-carousel-container">
+        <Swiper>
+          <Fragment slot="items" >
+            {nextBooks.map((nb) => (
+              <div class="swiper-slide">
+                <Image class="h-[182px]" alt={nb.name} src={nb.imageSrc} width="128" height="182"/>
+              </div>
+            ))}
+          </Fragment>
+        </Swiper>
+      </div>
+
+      <a href="https://app.readmetxt.com.br" aria-label="ver quadro de leituras" id="nextreadings-readingboard-link" class="nextreadings-magnetic-button-container opacity-0">
+        <MagneticButton>
+          <div class="text-primary magnetic-button-content glow">
+            <Fragment set:html={readingBoardSvg} />
+          </div>
+        </MagneticButton>
+      </a>
+    </div>
+  </div>
+</SectionLayout>
+
+<style >
+  .nextreadings-magnetic-button-container {
+    border-radius: 100%;
+  }
+  .nextreadings-magnetic-button-container:hover .magnetic-button-content::after {
+    width: 170px; height: 170px;
+    top: -10px; left: -10px;
+    transition: all 300ms cubic-bezier(.36,1.16,.93,.99);
+  }
+
+  .nextreadings-magnetic-button-container:hover .magnetic-button-content {
+    color: black;
+    transition: color 300ms cubic-bezier(.36,1.16,.93,.99) 50ms;
+  }
+
+  .magnetic-button-content::after {
+    content: '';
+    width: 50px;
+    height: 50px;
+    background-color: #C9A3FF;
+    display: flex;
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 500ms cubic-bezier(.36,1.16,.93,.99);
+  }
+
+  .magnetic-button-content {
+    transition: color 150ms cubic-bezier(.36,1.16,.93,.99);
+  }
+
+  .glow::before {
+    width: 100px; height: 100px;
+    bottom: calc(50% - 50px); left: calc(50% - 50px);
+  }
+
+  @keyframes magnetic {
+    0% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+</style>

@@ -4,6 +4,7 @@ import Header from '../components/organisms/Header.astro';
 import '@fontsource-variable/montserrat';
 import '@fontsource-variable/red-hat-mono';
 import '@fontsource/material-icons-outlined';
+import 'swiper/css';
 
 interface Props {
 	title: string;
@@ -12,11 +13,7 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<script>
-  import scrollSkewEffect from '../effects/scroll-skew.ts';
-
-  scrollSkewEffect(4);
-</script>
+<script is:global src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <!doctype html>
 <html lang="en">

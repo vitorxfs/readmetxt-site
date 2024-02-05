@@ -48,6 +48,7 @@ const styleProgressPercentage = `${currentBook.progress}%`
   .fromTo('.currentreading-name', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.3)
   .fromTo('.currentreading-author', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.32)
   .fromTo('.currentreading-progress', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.36)
+  .from('.currentreading-progress .progress', { width: 0, duration: 1.5 }, 0.36)
   .fromTo('.currentreading-meeting', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.40)
   .fromTo('.currentreading-buylink', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.44)
   .fromTo('.currentreading-grouplink', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.48)
@@ -74,9 +75,9 @@ const styleProgressPercentage = `${currentBook.progress}%`
       <SectionHeading>Leitura Atual</SectionHeading>
     </div>
 
-    <div class="flex flex-col lg:flex-row gap-4 mb-[500px] currentreading-picture opacity-0">
+    <div class="flex flex-col lg:flex-row gap-4 currentreading-picture opacity-0">
       <div class="glow currentreading-image w-fit mx-auto md:mx-0">
-        <Image class="skewElem" alt="" src="https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg" width="173" height="247"/>
+        <Image alt="" src="https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg" width="173" height="247"/>
       </div>
 
       <div class="flex flex-col gap-8 justify-between">
@@ -92,7 +93,7 @@ const styleProgressPercentage = `${currentBook.progress}%`
           <h3 class="text-2xl font-bold currentreading-name opacity-0">{currentBook.name}</h3>
           <p class="currentreading-author opacity-0">{currentBook.author}</p>
           <div class="flex items-center gap-2 mt-2 currentreading-progress opacity-0">
-            <span class="progress-bar"></span>
+            <span class="progress-bar"><span class="progress"/></span>
             <p>{currentBook.progress}% lido</p>
           </div>
           <p class="mt-2 currentreading-meeting opacity-0">Encontro: {currentBook.meetingDate}</p>
@@ -130,16 +131,17 @@ const styleProgressPercentage = `${currentBook.progress}%`
     background-color: #3A3A3A;
     border-radius: 100px;
     position: relative;
-    z-index: -1
+    z-index: -1;
   }
-  .progress-bar::before {
+
+  .progress-bar > .progress {
     position: absolute;
-    content: '';
     border-radius: 100px;
     height: 100%;
     width: var(--styleProgressPercentage);
     background-color: white;
     z-index: 10;
+    animation: progress 1000ms ease-out;
   }
 
   .currentreading-image {
