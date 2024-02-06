@@ -9,37 +9,19 @@ import Swiper from './swiper.astro';
 import 'swiper/css';
 import MagneticButton from '../atom/MagneticButton.astro';
 import readingBoardSvg from '../../assets/img/reading-board.svg?raw';
+import nextBadge from '../../assets/img/next-badge.svg?raw';
+import { Status, type Reading } from '../../domain/readings';
 
 dayjs.locale('pt-br');
 dayjs.extend(LocalizedFormat)
 
-const nextBooks = [
-  {
-    name: 'A vida na sociedade da vigilância: a privacidade hoje',
-    imageSrc: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
-    meetingDate: dayjs(new Date()).format('L'),
-  },
-  {
-    name: 'A vida na sociedade da vigilância: a privacidade hoje',
-    imageSrc: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
-    meetingDate: dayjs(new Date()).format('L'),
-  },
-  {
-    name: 'A vida na sociedade da vigilância: a privacidade hoje',
-    imageSrc: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
-    meetingDate: dayjs(new Date()).format('L'),
-  },
-  {
-    name: 'A vida na sociedade da vigilância: a privacidade hoje',
-    imageSrc: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
-    meetingDate: dayjs(new Date()).format('L'),
-  },
-  {
-    name: 'A vida na sociedade da vigilância: a privacidade hoje',
-    imageSrc: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
-    meetingDate: dayjs(new Date()).format('L'),
-  }
-]
+interface Props {
+  readings: Reading[];
+}
+
+const { readings } = Astro.props;
+
+const nextBooks = readings.filter((r) => r.status === Status.Queue);
 ---
 
 <script>
@@ -61,7 +43,7 @@ const nextBooks = [
 
 </script>
 
-<SectionLayout aria='Leitura Atual' id='leituras'>
+<SectionLayout aria='Próximas leituras' id='proximasleituras'>
   <span
     class="mt-8 font-icon text-4xl text-white drop-shadow-lg nextreadings-icon opacity-0 hidden md:block"
     slot="icon"
@@ -85,9 +67,10 @@ const nextBooks = [
       <div class="flex gap-11 nextreadings-image w-full lg:w-[60%] h-fit overflow-x-scroll overflow-y-visible opacity-0" id="nextreadings-carousel-container">
         <Swiper>
           <Fragment slot="items" >
-            {nextBooks.map((nb) => (
-              <div class="swiper-slide">
-                <Image class="h-[182px]" alt={nb.name} src={nb.imageSrc} width="128" height="182"/>
+            {nextBooks.map((nb, i) => (
+              <div class="swiper-slide relative">
+                {i === 0 && (<span class="next-badge"><Fragment set:html={nextBadge} /></span>)}
+                <Image class="h-[182px]" alt={nb.title} src={nb.cover} width="128" height="182"/>
               </div>
             ))}
           </Fragment>
@@ -106,6 +89,13 @@ const nextBooks = [
 </SectionLayout>
 
 <style >
+  .next-badge {
+    position:absolute;
+    top: 6px;
+    left: -4px;
+    z-index: 99999;
+  }
+
   .nextreadings-magnetic-button-container {
     border-radius: 100%;
   }

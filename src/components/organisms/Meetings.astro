@@ -5,32 +5,16 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import ButtonLink from '../atom/ButtonLink.astro';
+import type { Reading } from '../../domain/readings';
 
 dayjs.locale('pt-br');
 dayjs.extend(LocalizedFormat)
 
-const meetings = [
-  {
-    name: 'A vida na sociedade da vigilância: a privacidade hoje',
-    meetingDate: dayjs(new Date()).format('LL'),
-  },
-  {
-    name: 'A vida na sociedade da vigilância: a privacidade hoje',
-    meetingDate: dayjs(new Date()).format('LL'),
-  },
-  {
-    name: 'A vida na sociedade da vigilância: a privacidade hoje',
-    meetingDate: dayjs(new Date()).format('LL'),
-  },
-  {
-    name: 'A vida na sociedade da vigilância: a privacidade hoje',
-    meetingDate: dayjs(new Date()).format('LL'),
-  },
-  {
-    name: 'A vida na sociedade da vigilância: a privacidade hoje',
-    meetingDate: dayjs(new Date()).format('LL'),
-  }
-]
+interface Props {
+  readings: Reading[];
+}
+
+const { readings } = Astro.props;
 ---
 
 <script>
@@ -59,10 +43,9 @@ const meetings = [
     }
   })
   .fromTo('.meetings-button', { y: 10 }, { y: 0, opacity: 1, duration: 0.5 }, '<0.3');
-
 </script>
 
-<SectionLayout aria='Leitura Atual' id='leituras'>
+<SectionLayout aria='Encontros' id='encontros'>
   <span
     class="mt-20 font-icon text-4xl text-primary drop-shadow-lg meetings-icon opacity-0 hidden md:block"
     slot="icon"
@@ -84,10 +67,10 @@ const meetings = [
 
     <div class="flex flex-col gap-4  h-fit items-center">
       <table class="flex flex-col w-full">
-        {meetings.map((m, i) => (
+        {readings.map((m, i) => (
           <tr class="flex w-full justify-between items-center gap-4 px-2 lg:px-8 py-6 border-t border-primary border-opacity-50 last:border-b opacity-0">
-            <td>{m.name}</td>
-            <td>{m.meetingDate}</td>
+            <td class="w-[60%]">{m.title}</td>
+            <td class="text-right">{dayjs(m.meetingDate).format('LL')}</td>
           </tr>
         ))}
       </table>

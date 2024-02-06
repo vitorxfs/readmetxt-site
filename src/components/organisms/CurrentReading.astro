@@ -7,20 +7,30 @@ import 'dayjs/locale/pt-br';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import amazonLogo from '../../assets/img/amazon.svg?raw';
 import starIcon from '../../assets/img/star.svg?raw';
+import { Status, type Reading } from '../../domain/readings';
 
 dayjs.locale('pt-br');
-dayjs.extend(LocalizedFormat)
+dayjs.extend(LocalizedFormat);
 
-const currentBook = {
-  name: 'A vida na sociedade da vigilância: A privacidade hoje',
-  author: 'Stefano Rodotà',
-  progress: 90,
-  meetingDate: dayjs(new Date()).format('LL'),
-  amazonLink: 'https://www.amazon.com.br/Vida-Sociedade-Vigil%C3%A2ncia-Privacidade-Hoje/dp/8571476888',
-  stars: 4,
+interface Props {
+  readings: Reading[]
 }
 
-const styleProgressPercentage = `${currentBook.progress}%`
+const { readings } = Astro.props;
+
+const fallback = {
+  title: '---',
+  authors: ['---'],
+  progress: 0,
+  meetingDate: dayjs().toDate(),
+  amazonLink: '#',
+  rating: 0,
+  cover: 'https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg',
+}
+
+const currentBook = readings.find((r) => r.status === Status.Reading) || fallback;
+
+const styleProgressPercentage = `${currentBook.progress * 100}%`;
 ---
 
 <script>
@@ -77,26 +87,26 @@ const styleProgressPercentage = `${currentBook.progress}%`
 
     <div class="flex flex-col lg:flex-row gap-4 currentreading-picture opacity-0">
       <div class="glow currentreading-image w-fit mx-auto md:mx-0">
-        <Image alt="" src="https://m.media-amazon.com/images/I/A1UrWkgicuL._SL1500_.jpg" width="173" height="247"/>
+        <Image alt="" src={currentBook.cover} width="173" height="247"/>
       </div>
 
       <div class="flex flex-col gap-8 justify-between">
         <div>
           <div class="flex gap-1 currentreading-stars opacity-0">
-            {Array(currentBook.stars).fill('').map(() => (
+            {Array(currentBook.rating).fill('').map(() => (
               <span class="text-primary" set:html={starIcon} />
             ))}
-            {Array(5-currentBook.stars).fill('').map(() => (
+            {Array(5-currentBook.rating).fill('').map(() => (
               <span class="text-[#3A3A3A]" set:html={starIcon} />
             ))}
           </div>
-          <h3 class="text-2xl font-bold currentreading-name opacity-0">{currentBook.name}</h3>
-          <p class="currentreading-author opacity-0">{currentBook.author}</p>
+          <h3 class="text-2xl font-bold currentreading-name opacity-0">{currentBook.title}</h3>
+          <p class="currentreading-author opacity-0">{currentBook.authors.join(', ')}</p>
           <div class="flex items-center gap-2 mt-2 currentreading-progress opacity-0">
             <span class="progress-bar"><span class="progress"/></span>
-            <p>{currentBook.progress}% lido</p>
+            <p>{Math.floor(currentBook.progress*100)}% lido</p>
           </div>
-          <p class="mt-2 currentreading-meeting opacity-0">Encontro: {currentBook.meetingDate}</p>
+          <p class="mt-2 currentreading-meeting opacity-0">Encontro: {dayjs(currentBook.meetingDate).format('LL')}</p>
         </div>
         <a aria-label="Comprar na amazon" href={currentBook.amazonLink} class="currentreading-buylink opacity-0 hover:text-primary transition-all w-fit p-2 -m-2">
           <Fragment set:html={amazonLogo} />

@@ -1,11 +1,19 @@
 ---
 import Hero from '../components/organisms/Hero.astro';
+import { getReadingsService } from '../initializers/services';
 import HowItWorks from '../components/organisms/HowItWorks.astro';
+import Meetings from '../components/organisms/Meetings.astro';
 import Layout from '../layouts/Layout.astro';
 import Mediation from '../components/organisms/Mediation.astro';
 import CurrentReading from '../components/organisms/CurrentReading.astro';
 import NextReadings from '../components/organisms/NextReadings.astro';
-import Meetings from '../components/organisms/Meetings.astro';
+
+const readingsService = getReadingsService();
+let readings = await readingsService.getReadings();
+
+if (readings) {
+  readings = readings.sort((a, b) => a.meetingDate.getTime() - b.meetingDate.getTime())
+}
 ---
 
 <Layout title="README.txt">
@@ -13,9 +21,11 @@ import Meetings from '../components/organisms/Meetings.astro';
     <Hero />
     <HowItWorks />
     <Mediation />
-    <CurrentReading />
-    <NextReadings />
-    <Meetings />
+    {readings?.length && (
+      <CurrentReading readings={readings} />
+      <NextReadings readings={readings} />
+      <Meetings readings={readings}/>
+    )}
   </div>
 </Layout>
 

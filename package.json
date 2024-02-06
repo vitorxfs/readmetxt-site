@@ -20,6 +20,8 @@
     "@fontsource/material-icons-outlined": "^5.0.11",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "@vercel/kv": "^1.0.1",
+    "@vercel/node": "^3.0.17",
     "astro": "^4.2.4",
     "astro-feather-icons": "^1.0.2",
     "dayjs": "^1.11.10",
@@ -31,10 +33,13 @@
     "react-feather": "^2.0.10",
     "swiper": "^11.0.5",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/feather-icons": "^4.29.4",
-    "@types/lodash": "^4.14.202"
+    "@types/lodash": "^4.14.202",
+    "@types/node": "^20.11.16",
+    "typescript": "^5.3.3"
   }
 }
