@@ -1,0 +1,150 @@
+---
+import SectionHeading from '../atom/SectionHeading.astro';
+import SectionLayout from './SectionLayout.astro';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import ButtonLink from '../atom/ButtonLink.astro';
+
+dayjs.locale('pt-br');
+dayjs.extend(LocalizedFormat)
+
+const meetings = [
+  {
+    name: 'A vida na sociedade da vigilância: a privacidade hoje',
+    meetingDate: dayjs(new Date()).format('LL'),
+  },
+  {
+    name: 'A vida na sociedade da vigilância: a privacidade hoje',
+    meetingDate: dayjs(new Date()).format('LL'),
+  },
+  {
+    name: 'A vida na sociedade da vigilância: a privacidade hoje',
+    meetingDate: dayjs(new Date()).format('LL'),
+  },
+  {
+    name: 'A vida na sociedade da vigilância: a privacidade hoje',
+    meetingDate: dayjs(new Date()).format('LL'),
+  },
+  {
+    name: 'A vida na sociedade da vigilância: a privacidade hoje',
+    meetingDate: dayjs(new Date()).format('LL'),
+  }
+]
+---
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.meetings-heading',
+      start: 'top 80%'
+    }
+  })
+  .fromTo('.meetings-icon, .meetings-heading', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2);
+
+  const meetings = document.querySelectorAll('table tr');
+  meetings.forEach((m, i) => {
+    tl.fromTo(m, { y: 10 }, { y: 0, opacity: 1, duration: 0.5 }, '<0.1');
+  });
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: '.meetings-button',
+      start: 'top 90%'
+    }
+  })
+  .fromTo('.meetings-button', { y: 10 }, { y: 0, opacity: 1, duration: 0.5 }, '<0.3');
+
+</script>
+
+<SectionLayout aria='Leitura Atual' id='leituras'>
+  <span
+    class="mt-20 font-icon text-4xl text-primary drop-shadow-lg meetings-icon opacity-0 hidden md:block"
+    slot="icon"
+    aria-hidden="true"
+  >
+    calendar_today
+  </span>
+  <div slot="content" class="mt-20 w-full">
+    <div class="meetings-heading opacity-0 mb-14 flex gap-4">
+      <span
+        class="font-icon text-primary text-4xl drop-shadow-lg meetings-icon opacity-0 block md:hidden"
+        slot="icon"
+        aria-hidden="true"
+      >
+        calendar_today
+      </span>
+      <SectionHeading>Encontros</SectionHeading>
+    </div>
+
+    <div class="flex flex-col gap-4  h-fit items-center">
+      <table class="flex flex-col w-full">
+        {meetings.map((m, i) => (
+          <tr class="flex w-full justify-between items-center gap-4 px-2 lg:px-8 py-6 border-t border-primary border-opacity-50 last:border-b opacity-0">
+            <td>{m.name}</td>
+            <td>{m.meetingDate}</td>
+          </tr>
+        ))}
+      </table>
+      <div class="meetings-button opacity-0 mt-12 w-full lg:w-fit glow">
+        <ButtonLink href="#" className="px-8 w-full">Participar dos próximos encontros</ButtonLink>
+      </div>
+    </div>
+  </div>
+</SectionLayout>
+
+<style >
+  .meetings-magnetic-button-container {
+    border-radius: 100%;
+  }
+  .meetings-magnetic-button-container:hover .magnetic-button-content::after {
+    width: 170px; height: 170px;
+    top: -10px; left: -10px;
+    transition: all 300ms cubic-bezier(.36,1.16,.93,.99);
+  }
+
+  .meetings-magnetic-button-container:hover .magnetic-button-content {
+    color: black;
+    transition: color 300ms cubic-bezier(.36,1.16,.93,.99) 50ms;
+  }
+
+  .magnetic-button-content::after {
+    content: '';
+    width: 50px;
+    height: 50px;
+    background-color: #C9A3FF;
+    display: flex;
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 500ms cubic-bezier(.36,1.16,.93,.99);
+  }
+
+  .magnetic-button-content {
+    transition: color 150ms cubic-bezier(.36,1.16,.93,.99);
+  }
+
+  .glow::before {
+    width: 200px; height: 50px;
+    bottom: calc(50% - 50px); left: calc(50% - 100px);
+  }
+
+  @keyframes magnetic {
+    0% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+</style>

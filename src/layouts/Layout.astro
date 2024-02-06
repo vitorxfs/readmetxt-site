@@ -5,6 +5,7 @@ import '@fontsource-variable/montserrat';
 import '@fontsource-variable/red-hat-mono';
 import '@fontsource/material-icons-outlined';
 import 'swiper/css';
+import Footer from '../components/organisms/Footer.astro';
 
 interface Props {
 	title: string;
@@ -28,9 +29,12 @@ const { title } = Astro.props;
 	<body class="w-full bg-[#0D0D0D] text-white mx-auto p-1 lg:p-12">
     <GlobalStyles />
     <Header />
-    <main class="bg-[#1E1E21] rounded-2xl p-4 pt-10 lg:pt-20">
-      <slot />
-    </main>
+    <div class="bg-[#1E1E21] rounded-2xl">
+      <main class="p-4 pt-10 lg:pt-20 xl:-ml-16">
+        <slot />
+      </main>
+      <Footer />
+    </div>
 	</body>
 </html>
 

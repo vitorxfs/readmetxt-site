@@ -63,13 +63,13 @@ const nextBooks = [
 
 <SectionLayout aria='Leitura Atual' id='leituras'>
   <span
-    class="font-icon text-4xl text-white drop-shadow-lg nextreadings-icon opacity-0 hidden md:block"
+    class="mt-8 font-icon text-4xl text-white drop-shadow-lg nextreadings-icon opacity-0 hidden md:block"
     slot="icon"
     aria-hidden="true"
   >
     east
   </span>
-  <div slot="content" class="w-full">
+  <div slot="content" class="w-full mt-8">
     <div class="nextreadings-heading opacity-0 mb-14 flex gap-4">
       <span
         class="font-icon text white text-4xl drop-shadow-lg nextreadings-icon opacity-0 block md:hidden"
@@ -81,7 +81,7 @@ const nextBooks = [
       <SectionHeading>Próximas Leituras</SectionHeading>
     </div>
 
-    <div class="flex flex-col lg:flex-row gap-4 mb-[500px] h-fit justify-between items-center">
+    <div class="flex flex-col lg:flex-row gap-4 h-fit justify-between items-center">
       <div class="flex gap-11 nextreadings-image w-full lg:w-[60%] h-fit overflow-x-scroll overflow-y-visible opacity-0" id="nextreadings-carousel-container">
         <Swiper>
           <Fragment slot="items" >
