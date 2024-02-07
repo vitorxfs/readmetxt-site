@@ -9,5 +9,7 @@ import react from "@astrojs/react";
 export default defineConfig({
   integrations: [tailwind(), sitemap(), react()],
   output: "server",
-  adapter: vercel()
+  adapter: vercel({
+    imageService: true,
+  })
 });
