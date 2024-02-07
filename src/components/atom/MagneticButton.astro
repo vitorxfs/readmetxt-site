@@ -47,11 +47,11 @@ const updateMousePosition = throttle((e) => {
   });
 
   anime.onfinish = () => {
-    buttonPosition = [x, y];
     button.style.top = y + 'px';
     button.style.left = x + 'px';
   };
 }, 10);
+
 
 buttonActionArea.addEventListener('mousemove', (e) => {
   updateMousePosition(e);
