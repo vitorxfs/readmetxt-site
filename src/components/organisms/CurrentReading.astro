@@ -43,7 +43,7 @@ const styleProgressPercentage = `${currentBook.progress * 100}%`;
   gsap.timeline({
     scrollTrigger: {
       trigger: '.currentreading-heading',
-      start: 'top 80%'
+      start: 'top 90%'
     }
   })
   .fromTo('.currentreading-icon, .currentreading-heading', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2)
@@ -51,7 +51,7 @@ const styleProgressPercentage = `${currentBook.progress * 100}%`;
   gsap.timeline({
     scrollTrigger: {
       trigger: '.currentreading-picture',
-      start: 'top 80%'
+      start: 'top 90%'
     }
   })
   .fromTo('.currentreading-picture', { y: 10 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2)

@@ -27,7 +27,7 @@ const { readings } = Astro.props;
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: '.meetings-heading',
-      start: 'top 80%'
+      start: 'top 90%'
     }
   })
   .fromTo('.meetings-icon, .meetings-heading', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2);
