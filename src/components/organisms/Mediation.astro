@@ -11,7 +11,18 @@ const icons: Record<SocialMedia['name'], string> = {
   instagram: 'Instagram',
   linkedin: 'Linkedin',
 }
+
+const schema = {
+  "@context": "https://schema.org/",
+  "@type": "Person",
+  "name": c.name,
+  "jobTitle": c.title,
+  "description": c.description,
+  "url": c.socialMedia.find((s) => s.name === 'linkedin'),
+}
 ---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
 <script>
   import { gsap } from 'gsap';
@@ -41,6 +52,7 @@ const icons: Record<SocialMedia['name'], string> = {
 
 </script>
 
+
 <SectionLayout aria='Mediação' id="mediacao">
   <span
     class="font-icon text-4xl text-primary drop-shadow-lg mediation-icon opacity-0 hidden md:block"
@@ -66,7 +78,7 @@ const icons: Record<SocialMedia['name'], string> = {
       <div class="self-stretch max-w-[320px] rounded-[20%] w-full mx-auto lg:ml-0 mediation-picture opacity-0">
         <Image
           class="object-cover h-full"
-          alt=""
+          alt={c.imageDescription}
           width="350" height="350"
           src={profilepic}
         />

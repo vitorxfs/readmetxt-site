@@ -8,6 +8,7 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import amazonLogo from '../../assets/img/amazon.svg?raw';
 import starIcon from '../../assets/img/star.svg?raw';
 import { Status, type Reading } from '../../domain/readings';
+import { PUBLIC_JOIN_GROUP_URL } from '../../env';
 
 dayjs.locale('pt-br');
 dayjs.extend(LocalizedFormat);
@@ -111,7 +112,7 @@ const styleProgressPercentage = `${currentBook.progress * 100}%`;
         <a aria-label="Comprar na amazon" href={currentBook.amazonLink} class="currentreading-buylink opacity-0 hover:text-primary transition-all w-fit p-2 -m-2">
           <Fragment set:html={amazonLogo} />
         </a>
-        <a href="#" class="flex flex-nowrap items-center text-primary gap-2 group-reading-link currentreading-grouplink opacity-0">
+        <a href={PUBLIC_JOIN_GROUP_URL} class="flex flex-nowrap items-center text-primary gap-2 group-reading-link currentreading-grouplink opacity-0">
           <span class="underline">Participar da leitura em grupo</span>
           <span class="font-icon no-underline">east</span>
         </a>

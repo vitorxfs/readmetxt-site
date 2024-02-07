@@ -1,29 +1,40 @@
 ---
-import GlobalStyles from './GlobalStyles.astro';
-import Header from '../components/organisms/Header.astro';
 import '@fontsource-variable/montserrat';
 import '@fontsource-variable/red-hat-mono';
 import '@fontsource/material-icons-outlined';
 import 'swiper/css';
+import { getImage } from 'astro:assets';
+import { PUBLIC_CANONICAL_URL } from '../env';
 import Footer from '../components/organisms/Footer.astro';
+import GlobalStyles from './GlobalStyles.astro';
+import Header from '../components/organisms/Header.astro';
+import ogImage from '../assets/img/og.svg';
+import SEO from '../components/atom/SEO.astro';
 
 interface Props {
 	title: string;
 }
 
 const { title } = Astro.props;
+
+const ogImageOpt = await getImage(ogImage);
 ---
 
 <script is:global src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
+    <SEO
+      title='README.txt - Clube de Leitura de Segurança da Informação e Proteção de Dados'
+      description='O "README.txt" é um Clube de Leitura idealizado e mediado por Caroline Valentim. É dedicado a temas de Segurança da Informação e Proteção de Dados, com o propósito de explorar e debater livros, artigos e demais textos dessas áreas.'
+      ogImage={`${PUBLIC_CANONICAL_URL}${ogImageOpt.src}`}
+      canonical={PUBLIC_CANONICAL_URL}
+    />
 		<title>{title}</title>
 	</head>
 	<body class="w-full bg-[#0D0D0D] text-white mx-auto p-1 lg:p-12">

@@ -6,6 +6,7 @@ import 'dayjs/locale/pt-br';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import ButtonLink from '../atom/ButtonLink.astro';
 import type { Reading } from '../../domain/readings';
+import { PUBLIC_JOIN_GROUP_URL } from '../../env';
 
 dayjs.locale('pt-br');
 dayjs.extend(LocalizedFormat)
@@ -75,7 +76,7 @@ const { readings } = Astro.props;
         ))}
       </table>
       <div class="meetings-button opacity-0 mt-12 w-full lg:w-fit glow">
-        <ButtonLink href="#" className="px-8 w-full">Participar dos próximos encontros</ButtonLink>
+        <ButtonLink href={PUBLIC_JOIN_GROUP_URL} className="px-8 w-full">Participar dos próximos encontros</ButtonLink>
       </div>
     </div>
   </div>
