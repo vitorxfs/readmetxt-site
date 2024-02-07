@@ -9,6 +9,14 @@ import react from "@astrojs/react";
 export default defineConfig({
   integrations: [tailwind(), sitemap(), react()],
   output: "server",
+  image: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.amazonaws.com',
+      },
+    ],
+  },
   adapter: vercel({
     imageService: true,
   })
