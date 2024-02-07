@@ -33,7 +33,7 @@ const { readings } = Astro.props;
   .fromTo('.meetings-icon, .meetings-heading', { y: 5 }, { y: 0, opacity: 1, duration: 0.5 }, 0.2);
 
   const meetings = document.querySelectorAll('table tr');
-  meetings.forEach((m, i) => {
+  meetings.forEach((m) => {
     tl.fromTo(m, { y: 10 }, { y: 0, opacity: 1, duration: 0.5 }, '<0.1');
   });
 
@@ -68,7 +68,7 @@ const { readings } = Astro.props;
 
     <div class="flex flex-col gap-4  h-fit items-center">
       <table class="flex flex-col w-full">
-        {readings.map((m, i) => (
+        {readings.map((m) => (
           <tr class="flex w-full justify-between items-center gap-4 px-2 lg:px-8 py-6 border-t border-primary border-opacity-50 last:border-b opacity-0">
             <td class="w-[60%]">{m.title}</td>
             <td class="text-right">{dayjs(m.meetingDate).format('LL')}</td>

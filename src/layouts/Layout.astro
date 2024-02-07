@@ -8,7 +8,7 @@ import { PUBLIC_CANONICAL_URL } from '../env';
 import Footer from '../components/organisms/Footer.astro';
 import GlobalStyles from './GlobalStyles.astro';
 import Header from '../components/organisms/Header.astro';
-import ogImage from '../assets/img/og.svg';
+import ogImage from '../assets/img/og.png';
 import SEO from '../components/atom/SEO.astro';
 
 interface Props {
@@ -17,10 +17,10 @@ interface Props {
 
 const { title } = Astro.props;
 
-const ogImageOpt = await getImage(ogImage);
+const ogImageOpt = await getImage({ src: ogImage, format: 'webp' });
 ---
 
-<script is:global src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" />
 
 <!doctype html>
 <html lang="pt-br">

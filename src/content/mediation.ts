@@ -1,5 +1,3 @@
-import { string } from 'astro/zod';
-
 export type SocialMedia = {
   name: 'linkedin' | 'instagram';
   url: string;

@@ -2,8 +2,8 @@ import React from 'react';
 import * as icons from 'react-feather';
 import type { IconProps } from 'react-feather';
 
-interface FeatherIconProps extends IconProps {
-  iconName: string;
+export interface FeatherIconProps extends IconProps {
+  iconName: keyof typeof icons;
 }
 
 const FeatherIcon = ({ iconName, ...props }: FeatherIconProps) => {

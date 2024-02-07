@@ -1,13 +1,11 @@
-import { ILogger } from './logger.service';
+import type { ILogger } from './logger.service';
 import TelegramService from './telegram.service';
 
 export class DevLogger implements ILogger {
   private serviceName: string;
-  private telegramService: TelegramService;
 
-	constructor(config: { serviceName: string }, deps: { telegramService: TelegramService }) {
+	constructor(config: { serviceName: string }, _deps: { telegramService: TelegramService }) {
     this.serviceName = config.serviceName;
-    this.telegramService = deps.telegramService;
 	}
 
   error(message: string) {
@@ -21,6 +19,7 @@ export class DevLogger implements ILogger {
 
   info(message: string) {
     const builtMessage = this.buildMessage('💡', message);
+    console.info(builtMessage);
 
     return {
       sendTelegram: () => {},
@@ -29,6 +28,7 @@ export class DevLogger implements ILogger {
 
   success(message: string) {
     const builtMessage = this.buildMessage('✅', message);
+    console.log(builtMessage);
 
     return {
       sendTelegram: () => {},
@@ -39,7 +39,7 @@ export class DevLogger implements ILogger {
     return `[${this.serviceName}] ${emoji} ${message}`;
   }
 
-  async sendTelegram(message: string): Promise<void> {
+  async sendTelegram(_message: string): Promise<void> {
     // Nothing should be done here.
   }
 }

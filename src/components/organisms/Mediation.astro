@@ -4,10 +4,11 @@ import SectionHeading from '../atom/SectionHeading.astro';
 import SectionLayout from './SectionLayout.astro';
 import c from '../../content/mediation';
 import type { SocialMedia } from '../../content/mediation';
-import RenderIcon from '../atom/FeatherIcon.tsx';
+import RenderIcon from '../atom/FeatherIcon';
+import type { FeatherIconProps } from '../atom/FeatherIcon';
 import profilepic from '../../assets/img/profilepic.png';
 
-const icons: Record<SocialMedia['name'], string> = {
+const icons: Record<SocialMedia['name'], FeatherIconProps['iconName']> = {
   instagram: 'Instagram',
   linkedin: 'Linkedin',
 }
