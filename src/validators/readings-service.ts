@@ -29,7 +29,7 @@ export const readingsSchema = z.object({
       }),
       'Avaliação': z.object({
         select: z.object({
-          name: z.string().regex(/^★*$/),
+          name: z.string(),
         })
       }),
       'Páginas por dia': z.object({
