@@ -4,26 +4,33 @@ import { Status, type Reading } from '../domain/readings';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import dayjs from 'dayjs';
 import NotionService from './notion.service';
-import type { ILogger } from './logger.service';
+import type { Logger } from './logger.service';
 
 dayjs.extend(customParseFormat);
 
 export class ReadingsService {
   private notionService: NotionService;
-  private logger: ILogger;
+  private logger: Logger;
 
-	constructor(deps: { notionService: NotionService, logger: ILogger }) {
+	constructor(deps: { notionService: NotionService, logger: Logger }) {
     this.notionService = deps.notionService;
     this.logger = deps.logger;
 	}
 
 	async getReadings(): Promise<Reading[]> {
     try {
-      const res = await this.notionService.getDatabase(NOTION_READINGS_DATABASE_ID);
-      return this.parseData(res);
+      const res = await this.notionService.getDatabase(NOTION_READINGS_DATABASE_ID) as Record<string, any>;
+
+      // TODO: mitigatedRes should be temporary and removed as soon as possible
+      const mitigatedRes = {
+        ...res,
+        results: res?.results?.filter((r: {properties: Record<string, any>}) => r.properties['Autor']['rich_text'].length > 0),
+      };
+
+      return this.parseData(mitigatedRes);
     } catch(err: unknown) {
       if (err instanceof Error) {
-        this.logger.error('Could not parse Notion data').sendTelegram();
+        this.logger.error('Could not parse Notion data', err).sendTelegram();
       }
       return [];
     }
@@ -55,7 +62,7 @@ export class ReadingsService {
       pagesRead: d.properties['Páginas Lidas'].number,
       pricing: d.properties['Preço*'].number,
       progress: d.properties.Progresso.formula.number,
-      rating: d.properties.Avaliação.select.name.length,
+      rating: d.properties.Avaliação.select.name?.length,
       title: d.properties['Título do Livro'].title[0].plain_text,
       totalPages: d.properties['Páginas Totais'].number,
       status: notionToStatus[d.properties.Status.select.name],

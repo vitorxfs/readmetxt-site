@@ -8,7 +8,7 @@ export const readingsSchema = z.object({
         formula: z.object({ number: z.number() })
       }),
       'Link da Amazon para Compra': z.object({
-        url: z.string().url(),
+        url: z.string().url().optional(),
       }),
       'Capa': z.object({
         files: z.array(z.object({
@@ -29,7 +29,7 @@ export const readingsSchema = z.object({
       }),
       'Avaliação': z.object({
         select: z.object({
-          name: z.string(),
+          name: z.string().optional(),
         })
       }),
       'Páginas por dia': z.object({

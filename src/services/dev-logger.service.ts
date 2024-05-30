@@ -1,34 +1,35 @@
-import type { ILogger } from './logger.service';
+import type { Logger } from './logger.service';
 import TelegramService from './telegram.service';
 
-export class DevLogger implements ILogger {
+export class DevLogger implements Logger {
   private serviceName: string;
 
 	constructor(config: { serviceName: string }, _deps: { telegramService: TelegramService }) {
     this.serviceName = config.serviceName;
 	}
 
-  error(message: string) {
+  error(message: string, details?: Record<string, any>) {
     const builtMessage = this.buildMessage('🚨', message);
-    console.error(builtMessage);
+    console.error({ message: builtMessage, details: JSON.stringify(details) });
+    // console.error(JSON.stringify(details, null, 2))
 
     return {
       sendTelegram: () => {},
     };
   }
 
-  info(message: string) {
+  info(message: string, details?: Record<string, any>) {
     const builtMessage = this.buildMessage('💡', message);
-    console.info(builtMessage);
+    console.info({ message: builtMessage, details: JSON.stringify(details) });
 
     return {
       sendTelegram: () => {},
     };
   }
 
-  success(message: string) {
+  success(message: string, details?: Record<string, any>) {
     const builtMessage = this.buildMessage('✅', message);
-    console.log(builtMessage);
+    console.log({ message: builtMessage, details: JSON.stringify(details) });
 
     return {
       sendTelegram: () => {},

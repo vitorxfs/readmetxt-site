@@ -4,14 +4,14 @@ interface MessageTypeReturn {
   sendTelegram: () => void;
 }
 
-export interface ILogger {
-  error: (message: string) => MessageTypeReturn;
-  info: (message: string) => MessageTypeReturn;
-  success: (message: string) => MessageTypeReturn;
+export interface Logger {
+  error: (message: string, details?: Record<string, any>) => MessageTypeReturn;
+  info: (message: string, details?: Record<string, any>) => MessageTypeReturn;
+  success: (message: string, details?: Record<string, any>) => MessageTypeReturn;
   sendTelegram: (message: string) => void;
 }
 
-export class Logger implements ILogger {
+export class ProdLogger implements Logger {
   private serviceName: string;
   private telegramService: TelegramService;
 
@@ -20,25 +20,9 @@ export class Logger implements ILogger {
     this.telegramService = deps.telegramService;
 	}
 
-  error(message: string) {
+  error(message: string, details?: Record<string, any>): MessageTypeReturn {
     const builtMessage = this.buildMessage('🚨', message);
-    console.error(builtMessage);
-
-    return {
-      sendTelegram: () => this.sendTelegram(builtMessage),
-    };
-  }
-
-  info(message: string) {
-    const builtMessage = this.buildMessage('💡', message);
-
-    return {
-      sendTelegram: () => this.sendTelegram(builtMessage),
-    };
-  }
-
-  success(message: string) {
-    const builtMessage = this.buildMessage('✅', message);
+    console.error({ message: builtMessage, details: JSON.stringify(details) });
 
     return {
       sendTelegram: () => this.sendTelegram(builtMessage),
@@ -52,6 +36,24 @@ export class Logger implements ILogger {
   async sendTelegram(message: string): Promise<void> {
     await this.telegramService.sendMessage(message);
   }
+
+  info(message: string, details?: Record<string, any>): MessageTypeReturn {
+    const builtMessage = this.buildMessage('💡', message);
+    console.log({ message: builtMessage, details: JSON.stringify(details) });
+
+    return {
+      sendTelegram: () => this.sendTelegram(builtMessage),
+    };
+  }
+
+  success(message: string, details?: Record<string, any>): MessageTypeReturn {
+    const builtMessage = this.buildMessage('✅', message);
+    console.info({ message: builtMessage, details: JSON.stringify(details) });
+
+    return {
+      sendTelegram: () => this.sendTelegram(builtMessage),
+    };
+  }
 }
 
-export default Logger;
+export default ProdLogger;

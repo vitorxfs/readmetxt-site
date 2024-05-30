@@ -8,7 +8,7 @@ export enum Status {
 export interface Reading {
   title: string;
   authors: string[];
-  rating: number;
+  rating?: number;
   pagesRead: number;
   totalPages: number;
   finishDate: Date;
@@ -16,7 +16,7 @@ export interface Reading {
   progress: number;
   status: Status;
   cover: string;
-  amazonLink: string;
+  amazonLink?: string;
   pricing: number;
   pagesPerDay: number;
   daysToRead: number;

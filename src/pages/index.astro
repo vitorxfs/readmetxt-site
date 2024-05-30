@@ -25,7 +25,7 @@ Astro.response.headers.set('Cache-Control', 's-maxage=3600, stale-while-revalida
     <Hero />
     <HowItWorks />
     <Mediation />
-    {readings?.length && (
+    {!!readings?.length && (
       <CurrentReading readings={readings} />
       <NextReadings readings={readings} />
       <Meetings readings={readings}/>
