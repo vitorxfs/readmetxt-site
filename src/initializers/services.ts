@@ -1,10 +1,10 @@
 import { ENVIRONMENT, NOTION_API_HOST, NOTION_READINGS_DATABASE_ID, NOTION_TOKEN, TELEGRAM_BASE_URL, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } from '../env'
 import DevLogger from '../services/dev-logger.service';
-import Logger from '../services/logger.service';
+import ProdLogger from '../services/logger.service';
 import NotionService from '../services/notion.service';
 import ReadingsService from '../services/readings.service';
 import TelegramService from '../services/telegram.service';
-import type { ILogger } from '../services/logger.service';
+import type { Logger } from '../services/logger.service';
 
 export const getNotionService = (): NotionService => {
   if (!NOTION_API_HOST || !NOTION_TOKEN) {
@@ -29,9 +29,9 @@ export const getTelegramService = (): TelegramService => {
   })
 }
 
-export const getLogger = (): ILogger => {
+export const getLogger = (): Logger => {
   if (ENVIRONMENT === 'production') {
-    return new Logger({
+    return new ProdLogger({
       serviceName: 'readmetxt-site',
     }, {
       telegramService: getTelegramService(),
