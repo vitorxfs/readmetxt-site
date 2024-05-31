@@ -34,10 +34,10 @@ export class ReadingsService {
         results: res?.results?.filter((r: {properties: Record<string, any>}) => r.properties['Autor']['rich_text'].length > 0),
       };
 
-      const parsedData = this.parseData(res);
+      const parsedData = this.parseData(mitigatedRes);
 
       if (parsedData) {
-        await this.saveToStorage(res);
+        await this.saveToStorage(mitigatedRes);
       }
 
       return parsedData;
