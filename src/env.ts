@@ -11,6 +11,11 @@ export const TELEGRAM_BASE_URL = import.meta.env.TELEGRAM_BASE_URL || 'https://a
 export const TELEGRAM_BOT_TOKEN = import.meta.env.TELEGRAM_BOT_TOKEN;
 export const TELEGRAM_CHAT_ID = import.meta.env.TELEGRAM_CHAT_ID;
 
+// Cloudflare
+export const CLOUDFLARE_READING_STORAGE_KEY = import.meta.env.CLOUDFLARE_READING_STORAGE_KEY || 'readmetxt_readings_fallback';
+export const CLOUDFLARE_ACCOUNT_ID = import.meta.env.CLOUDFLARE_ACCOUNT_ID;
+export const CLOUDFLARE_NAMESPACE_ID = import.meta.env.CLOUDFLARE_NAMESPACE_ID;
+export const CLOUDFLARE_TOKEN = import.meta.env.CLOUDFLARE_TOKEN;
 
 // Public
 export const PUBLIC_JOIN_GROUP_URL= import.meta.env.PUBLIC_JOIN_GROUP_URL || 'https://www.linkedin.com/groups/9585480/';

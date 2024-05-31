@@ -11,7 +11,6 @@ export class DevLogger implements Logger {
   error(message: string, details?: Record<string, any>) {
     const builtMessage = this.buildMessage('🚨', message);
     console.error({ message: builtMessage, details: JSON.stringify(details) });
-    // console.error(JSON.stringify(details, null, 2))
 
     return {
       sendTelegram: () => {},

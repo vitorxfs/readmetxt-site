@@ -1,20 +1,27 @@
-import { NOTION_READINGS_DATABASE_ID } from '../env';
+import { CLOUDFLARE_READING_STORAGE_KEY, NOTION_READINGS_DATABASE_ID } from '../env';
 import { readingsSchema } from '../validators/readings-service';
 import { Status, type Reading } from '../domain/readings';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import dayjs from 'dayjs';
 import NotionService from './notion.service';
 import type { Logger } from './logger.service';
+import type { StorageService } from './storage.service';
 
 dayjs.extend(customParseFormat);
 
 export class ReadingsService {
   private notionService: NotionService;
+  private storageService: StorageService;
   private logger: Logger;
 
-	constructor(deps: { notionService: NotionService, logger: Logger }) {
+	constructor(deps: {
+    notionService: NotionService,
+    storageService: StorageService,
+    logger: Logger
+  }) {
     this.notionService = deps.notionService;
     this.logger = deps.logger;
+    this.storageService = deps.storageService;
 	}
 
 	async getReadings(): Promise<Reading[]> {
@@ -27,12 +34,19 @@ export class ReadingsService {
         results: res?.results?.filter((r: {properties: Record<string, any>}) => r.properties['Autor']['rich_text'].length > 0),
       };
 
-      return this.parseData(mitigatedRes);
+      const parsedData = this.parseData(res);
+
+      if (parsedData) {
+        await this.saveToStorage(res);
+      }
+
+      return parsedData;
     } catch(err: unknown) {
       if (err instanceof Error) {
         this.logger.error('Could not parse Notion data', err).sendTelegram();
       }
-      return [];
+
+      return this.getFromStorage();
     }
 	}
 
@@ -69,6 +83,24 @@ export class ReadingsService {
     }));
 
     return parsedData;
+  }
+
+  private async getFromStorage(): Promise<Reading[]> {
+    try {
+      const fromStorage = await this.storageService.fetch(CLOUDFLARE_READING_STORAGE_KEY);
+
+      return this.parseData(fromStorage);
+    } catch(err: unknown) {
+      if (err instanceof Error) {
+        this.logger.error('Could not parse Notion data', err).sendTelegram();
+      }
+
+      return [];
+    }
+  }
+
+  private async saveToStorage(data: Record<string, any>): Promise<void> {
+    return this.storageService.write(CLOUDFLARE_READING_STORAGE_KEY, data);
   }
 }
 

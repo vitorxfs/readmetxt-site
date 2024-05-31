@@ -1,10 +1,11 @@
-import { ENVIRONMENT, NOTION_API_HOST, NOTION_READINGS_DATABASE_ID, NOTION_TOKEN, TELEGRAM_BASE_URL, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } from '../env'
+import { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_NAMESPACE_ID, CLOUDFLARE_READING_STORAGE_KEY, CLOUDFLARE_TOKEN, ENVIRONMENT, NOTION_API_HOST, NOTION_READINGS_DATABASE_ID, NOTION_TOKEN, TELEGRAM_BASE_URL, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } from '../env'
 import DevLogger from '../services/dev-logger.service';
 import ProdLogger from '../services/logger.service';
 import NotionService from '../services/notion.service';
 import ReadingsService from '../services/readings.service';
 import TelegramService from '../services/telegram.service';
 import type { Logger } from '../services/logger.service';
+import KVStorage from '../services/kv-storage.service';
 
 export const getNotionService = (): NotionService => {
   if (!NOTION_API_HOST || !NOTION_TOKEN) {
@@ -47,12 +48,23 @@ export const getLogger = (): Logger => {
 
 
 export const getReadingsService = (): ReadingsService => {
-  if (!NOTION_READINGS_DATABASE_ID) {
+  if (
+    !NOTION_READINGS_DATABASE_ID ||
+    !CLOUDFLARE_ACCOUNT_ID ||
+    !CLOUDFLARE_NAMESPACE_ID ||
+    !CLOUDFLARE_READING_STORAGE_KEY ||
+    !CLOUDFLARE_TOKEN
+  ) {
     throw new Error('Missing environment vaiable - Readings Service scope');
   }
 
   return new ReadingsService({
     logger: getLogger(),
     notionService: getNotionService(),
+    storageService: new KVStorage({
+      accountId: CLOUDFLARE_ACCOUNT_ID,
+      namespaceId: CLOUDFLARE_NAMESPACE_ID,
+      token: CLOUDFLARE_TOKEN
+    })
   })
 }
