@@ -1,4 +1,4 @@
-import { CLOUDFLARE_READING_STORAGE_KEY, NOTION_READINGS_DATABASE_ID } from '../env';
+import { CLOUDFLARE_READING_STORAGE_KEY, ENVIRONMENT, NOTION_READINGS_DATABASE_ID } from '../env';
 import { readingsSchema } from '../validators/readings-service';
 import { Status, type Reading } from '../domain/readings';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -26,18 +26,12 @@ export class ReadingsService {
 
 	async getReadings(): Promise<Reading[]> {
     try {
-      const res = await this.notionService.getDatabase(NOTION_READINGS_DATABASE_ID) as Record<string, any>;
+      const res = await this.notionService.getDatabase(NOTION_READINGS_DATABASE_ID, this.filters) as Record<string, any>;
 
-      // TODO: mitigatedRes should be temporary and removed as soon as possible
-      const mitigatedRes = {
-        ...res,
-        results: res?.results?.filter((r: {properties: Record<string, any>}) => r.properties['Autor']['rich_text'].length > 0),
-      };
-
-      const parsedData = this.parseData(mitigatedRes);
+      const parsedData = this.parseData(res);
 
       if (parsedData) {
-        await this.saveToStorage(mitigatedRes);
+        await this.saveToStorage(res);
       }
 
       return parsedData;
@@ -101,6 +95,33 @@ export class ReadingsService {
 
   private async saveToStorage(data: Record<string, any>): Promise<void> {
     return this.storageService.write(CLOUDFLARE_READING_STORAGE_KEY, data);
+  }
+
+  private get filters(): Record<string, any> {
+    return {
+      filter: {
+        and: [
+          {
+            property:  'Título do Livro',
+            rich_text: {
+              'is_not_empty': true
+            }
+          },
+          {
+            property:  'Autor',
+            'rich_text': {
+              'is_not_empty': true
+            }
+          },
+          {
+            property:  'Capa',
+            files: {
+              'is_not_empty': true
+            }
+          }
+        ]
+      }
+    }
   }
 }
 

@@ -4,7 +4,7 @@ export const readingsSchema = z.object({
   results: z.array(z.object({
     archived: z.boolean(),
     properties: z.object({
-      "Quantidade de dias para leitura": z.object({
+      'Quantidade de dias para leitura': z.object({
         formula: z.object({ number: z.number() })
       }),
       'Link da Amazon para Compra': z.object({

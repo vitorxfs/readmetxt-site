@@ -9,7 +9,7 @@ export class NotionService {
 		this.host = deps.host;
 	}
 
-	async getDatabase(id: string): Promise<unknown> {
+	async getDatabase(id: string, body?: Record<string, any>): Promise<unknown> {
 		const path = `v1/databases/${id}/query`;
 		const url = buildUrl(this.host, path);
 		const headers = this.buildHeaders(this.token);
@@ -17,9 +17,10 @@ export class NotionService {
 		const res = await fetch(url, {
       method: 'POST',
 			headers,
+      body: JSON.stringify(body),
 		});
 
-    return res.json()
+    return res.json();
 	}
 
 	private buildHeaders(token: string) {
