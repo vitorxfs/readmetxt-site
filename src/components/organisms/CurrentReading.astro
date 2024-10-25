@@ -31,6 +31,7 @@ const fallback = {
 
 const currentBook = readings.find((r) => r.status === Status.Reading)
   || readings.find((r) => r.status == Status.Reading)
+  || readings.find((r) => r.status == Status.Queue)
   || fallback;
 
 const styleProgressPercentage = `${currentBook.progress * 100}%`;
